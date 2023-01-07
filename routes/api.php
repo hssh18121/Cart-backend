@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Cart\CartController;
 use App\Http\Controllers\Order\OrderController;
+use App\Http\Controllers\OrderDetail\OrderDetailController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -28,4 +29,8 @@ Route::delete('cart/delete/{id}', [CartController::class, 'deleteProduct']);
 
 # Order API
 Route::get('order/show', [OrderController::class, 'showOrders']);
+Route::get('order/show-by-year/{year}', [OrderController::class, 'showOrdersByYear']);
 Route::post('order/create', [OrderController::class, 'createOrder']);
+
+#Order Detail API
+Route::get('details/get/{id}', [OrderDetailController::class, 'getOrderDetails']);
