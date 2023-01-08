@@ -19,5 +19,13 @@ class Database {
           
           return $this->conn;
     }
+
+    public function get_username() {
+      return $this->username;
+    }
+
+    public function get_password() {
+      return $this->password;
+    }
 }
 ?>
