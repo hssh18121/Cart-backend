@@ -7,9 +7,16 @@ class Cart {
     public $cart_id;
     public $created_at;
     public $last_updated;
+    private $pdo;
 
     public function __construct($db) {
         $this->conn = $db;
+
+        try {
+            $this->pdo = new PDO('mysql:host=localhost;dbname=carts_info;charset=utf8', "root", "");
+        } catch (PDOException $e) {
+            die($e->getMessage());
+        }
     }
 
     public function read() {
@@ -78,6 +85,24 @@ class Cart {
         }
 
         return true;
+    }
+
+    public function add_to_cart() {
+        $query = "SELECT * FROM `carts` WHERE user_id=:user_id";
+        try {
+            $stmt = $this->conn->prepare($query);
+            $this->user_id = htmlspecialchars(strip_tags($this->user_id)); 
+            $stmt->bindParam(':user_id', $this->user_id);
+            
+            $stmt->execute();
+        } catch (PDOException $e) {
+            echo "Error". $e->getMessage();
+            return false;
+        }
+
+        $num_rows = $stmt->rowCount();
+
+        return $num_rows;
     }
 
 }
