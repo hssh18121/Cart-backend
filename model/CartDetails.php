@@ -114,4 +114,19 @@ class CartDetail {
         return true;
     }
 
+    public function count_products() {
+        $query = "SELECT SUM(quantity) AS total_products, cart_id FROM `carts_details` GROUP BY cart_id;";
+        try {
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+        } catch (PDOException $e) {
+            echo "Error". $e->getMessage();
+        }
+        
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $result = $stmt->fetchAll();
+
+        return $result;
+    }
+
 }
