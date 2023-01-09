@@ -19,7 +19,6 @@
     $cart->user_id = $data->user_id;
 
     if ($cart->add_to_cart() == 0) {
-        $cart->id = $data->id;
         $cart->cart_id = $data->user_id;
 
         $cart->create();

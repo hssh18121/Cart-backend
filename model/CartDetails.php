@@ -70,7 +70,30 @@ class CartDetail {
         return true;
     }
 
+    public function find() {
+        $query = "SELECT * FROM `carts_details` WHERE cart_id=:cart_id AND product_id=:product_id";
+        try {
+            $stmt = $this->conn->prepare($query);
+            $this->cart_id = htmlspecialchars(strip_tags($this->cart_id)); 
+            $this->product_id = htmlspecialchars(strip_tags($this->product_id));
+
+            $stmt->bindParam(':cart_id', $this->cart_id);
+            $stmt->bindParam(':product_id', $this->product_id);
+            
+            $stmt->execute();
+        } catch (PDOException $e) {
+            echo "Error". $e->getMessage();
+            return false;
+        }
+
+        return true;
+    }
+
     public function create() {
+        if ($this->find()) {
+            return false;
+        }
+
         $query = "INSERT INTO `carts_details` (cart_id, product_id, quantity) VALUES (:cart_id, :product_id, :quantity)";
         try {
             $stmt = $this->conn->prepare($query);

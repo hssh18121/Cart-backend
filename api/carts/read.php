@@ -19,7 +19,6 @@
         extract($row);
 
         $order_item = array(
-            'id' => $id,
             'user_id' => $user_id,
             'cart_id' => $cart_id,
         );

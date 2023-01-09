@@ -15,14 +15,13 @@
     $data = json_decode(file_get_contents("php://input"));
     // echo $data;
 
-    $cart->id = $data->id;
     $cart->user_id = $data->user_id;
-    $cart->cart_id = $data->cart_id;
+    $cart->cart_id = $data->user_id;
 
     if ($cart->create()) {
-        echo json_encode(array('messege', 'cart detail created'));
+        echo json_encode(array('messege', 'cart created'));
     } else {
-        echo json_encode(array('messege', 'cart detail not created'));
+        echo json_encode(array('messege', 'cart not created'));
     }
 
     echo json_encode($cart, JSON_PRETTY_PRINT);

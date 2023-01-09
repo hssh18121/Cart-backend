@@ -2,7 +2,6 @@
 
 class Cart {
     private $conn;
-    public $id;
     public $user_id;
     public $cart_id;
     public $created_at;
@@ -66,21 +65,39 @@ class Cart {
         return true;
     }
 
-    public function create() {
-        $query = "INSERT INTO `carts` (id, user_id, cart_id) VALUES (:id, :user_id, :cart_id)";
+    public function find() {
+        $query = "SELECT * FROM `carts` WHERE user_id=:user_id";
         try {
             $stmt = $this->conn->prepare($query);
-            $this->id = htmlspecialchars(strip_tags($this->id)); 
+            $this->user_id = htmlspecialchars(strip_tags($this->user_id)); 
+            $stmt->bindParam(':user_id', $this->user_id);
+            
+            $stmt->execute();
+        } catch (PDOException $e) {
+            echo "Error". $e->getMessage();
+            return false;
+        }
+
+        return true;
+    }
+
+    public function create() {
+        if ($this->find()) {
+            return false;
+        } 
+
+        $query = "INSERT INTO `carts` (user_id, cart_id) VALUES (:user_id, :cart_id)";
+        try {
+            $stmt = $this->conn->prepare($query);
             $this->user_id = htmlspecialchars(strip_tags($this->user_id)); 
             $this->cart_id = htmlspecialchars(strip_tags($this->cart_id));
 
-            $stmt->bindParam(':id', $this->id);
             $stmt->bindParam(':user_id', $this->user_id);
             $stmt->bindParam(':cart_id', $this->cart_id);
 
             $stmt->execute();
         } catch (PDOException $e) {
-            // echo "Error". $e->getMessage();
+            echo "Error". $e->getMessage();
             return false;
         }
 
