@@ -86,11 +86,11 @@ class CartDetail {
             return false;
         }
 
-        return true;
+        return $stmt->rowCount();
     }
 
     public function create() {
-        if ($this->find()) {
+        if ($this->find() != 0) {
             return false;
         }
 
