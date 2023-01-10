@@ -10,12 +10,6 @@ class Cart {
 
     public function __construct($db) {
         $this->conn = $db;
-
-        try {
-            $this->pdo = new PDO('mysql:host=localhost;dbname=carts_info;charset=utf8', "root", "");
-        } catch (PDOException $e) {
-            die($e->getMessage());
-        }
     }
 
     public function read() {
